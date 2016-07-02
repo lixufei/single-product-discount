@@ -57,7 +57,8 @@ public class Item {
     }
 
     public BigDecimal getPrice() {
-        return price;
+        int count = barcode.split("-").length == 2 ? Integer.parseInt(barcode.split("-")[1]) : 1;
+        return price.multiply(BigDecimal.valueOf(count));
     }
 
     public Item setPrice(BigDecimal price) {
