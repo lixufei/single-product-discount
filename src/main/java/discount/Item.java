@@ -1,6 +1,7 @@
 package discount;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class Item {
 
@@ -66,8 +67,17 @@ public class Item {
         return this;
     }
 
-    public String getDiscountType() {
-
-        return null;
+    public String getDiscountType (String barcode, List<DiscountItem> discountItems) {
+        String discountType = "";
+        for (DiscountItem discountItem : discountItems) {
+            label:
+            for (int i = 0; i < discountItem.getBarcodes().length; i++) {
+                if (barcode == discountItem.getBarcodes()[i]){
+                    discountType = discountItem.getType();
+                    break label;
+                }
+            }
+        }
+        return discountType;
     }
 }

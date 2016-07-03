@@ -1,5 +1,7 @@
 package discount;
 
+import java.util.List;
+
 public class DiscountItem {
     private String type;
     private String[] barcodes;

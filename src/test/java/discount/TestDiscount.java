@@ -43,21 +43,8 @@ public class TestDiscount {
 
     @Test
     public void shouldGetTypeBaseOnBarcode () {
-        String type = "";
-        for (DiscountItem discountItem : discountItems) {
-            String barcode = "ITEM000002";
-
-            label:
-            for (int i = 0; i < discountItem.getBarcodes().length; i++) {
-                if (barcode == discountItem.getBarcodes()[i]){
-                    type = discountItem.getType();
-                    System.out.println("this is the right type:"+type);
-                    break label;
-                }
-                type = discountItem.getBarcodes()[0];
-            }
-        }
-
+        String barcode = "ITEM000002";
+        String type = item.getDiscountType(barcode, discountItems);
         assertEquals("TWENTYPERCENT", type);
     }
 
