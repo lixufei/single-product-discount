@@ -66,4 +66,8 @@ public class Item {
         return this;
     }
 
+    public String getDiscountType() {
+
+        return null;
+    }
 }

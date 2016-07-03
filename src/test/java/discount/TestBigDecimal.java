@@ -11,7 +11,7 @@ public class TestBigDecimal {
     @Test
     public void TestBigDecimal () {
         BigDecimal initValue = BigDecimal.ZERO;
-        initValue = initValue.add(BigDecimal.valueOf(19));
-        assertEquals(BigDecimal.valueOf(19), initValue);
+        initValue = initValue.add(BigDecimal.valueOf(19.0));
+        assertEquals(BigDecimal.valueOf(19.0), initValue);
     }
 }
