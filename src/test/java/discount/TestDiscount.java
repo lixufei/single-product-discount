@@ -13,6 +13,7 @@ public class TestDiscount {
     private DiscountItem discountItem2 = new DiscountItem();
     List<DiscountItem> discountItems = new ArrayList<DiscountItem>();
     private Item item = new Item();
+    BigDecimal ONE = BigDecimal.valueOf(1.0);
 
     @Before
     public void setup() {
@@ -25,7 +26,7 @@ public class TestDiscount {
         discountItems.add(discountItem1);
         discountItems.add(discountItem2);
 
-        item.setBarcode("ITEM000001")
+        item.setBarcode("ITEM0000001-2")
                 .setName("可口可乐")
                 .setUnit("瓶")
                 .setCategory("食品")
@@ -35,7 +36,6 @@ public class TestDiscount {
 
     @Test
     public void shouldGetDiscountedPriceWhenGivenAPrice() {
-        BigDecimal ONE = BigDecimal.valueOf(1.0);
         BigDecimal price = BigDecimal.valueOf(6.0);
         assertEquals(BigDecimal.valueOf(5.4).multiply(ONE), Discount.TENPERCENT.discountResult(price));
         assertEquals(BigDecimal.valueOf(4.8).multiply(ONE), Discount.TWENTYPERCENT.discountResult(price));
@@ -43,9 +43,16 @@ public class TestDiscount {
 
     @Test
     public void shouldGetTypeBaseOnBarcode () {
-        String barcode = "ITEM000002";
+        String barcode = "ITEM000002-9";
         String type = item.getDiscountType(barcode, discountItems);
         assertEquals("TWENTYPERCENT", type);
+    }
+
+    @Test
+    public void shouldGetTotalDiscountPriceWhenBarcodeIsDiscount () {
+        String barcode = item.getBarcode();
+
+        assertEquals(BigDecimal.valueOf(5.4).multiply(ONE), item.getItemPrice(barcode, discountItems));
     }
 
 }

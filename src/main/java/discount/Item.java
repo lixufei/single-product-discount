@@ -69,15 +69,33 @@ public class Item {
 
     public String getDiscountType (String barcode, List<DiscountItem> discountItems) {
         String discountType = "";
+        String pureBarcode = barcode.split("-")[0];
         for (DiscountItem discountItem : discountItems) {
             label:
             for (int i = 0; i < discountItem.getBarcodes().length; i++) {
-                if (barcode == discountItem.getBarcodes()[i]){
+                if (pureBarcode.equals(discountItem.getBarcodes()[i])){
                     discountType = discountItem.getType();
                     break label;
                 }
             }
         }
         return discountType;
+    }
+
+    public BigDecimal getItemPrice(String barcode, List<DiscountItem> discountItems) {
+        BigDecimal discountPrice;
+        BigDecimal originalPrice = getPrice();
+        String discountType = getDiscountType(barcode, discountItems);
+
+        switch (discountType) {
+            case "TENPERCENT":
+                discountPrice = Discount.TENPERCENT.discountResult(originalPrice);
+                break;
+            case "TWENTYPERCENT":
+                discountPrice = Discount.TWENTYPERCENT.discountResult(originalPrice);
+                break;
+            default: discountPrice = getPrice();
+        }
+        return discountPrice;
     }
 }
