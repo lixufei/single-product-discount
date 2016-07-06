@@ -57,9 +57,16 @@ public class Item {
         return this;
     }
 
+    public int getCount () {
+        return  barcode.split("-").length == 2 ? Integer.parseInt(barcode.split("-")[1]) : 1;
+
+    }
+
+    public BigDecimal getUnitPrice () {
+        return this.price;
+    }
     public BigDecimal getPrice() {
-        int count = barcode.split("-").length == 2 ? Integer.parseInt(barcode.split("-")[1]) : 1;
-        return price.multiply(BigDecimal.valueOf(count));
+        return price.multiply(BigDecimal.valueOf(this.getCount()));
     }
 
     public Item setPrice(BigDecimal price) {
@@ -97,5 +104,23 @@ public class Item {
             default: discountPrice = getPrice();
         }
         return discountPrice;
+    }
+
+    private String formatPrice (BigDecimal price) {
+        return new java.text.DecimalFormat("#.00").format(price);
+    }
+
+    @Override
+    public String toString() {
+        return "名称: " +
+                this.name + ", " +
+                "数量: " +
+                this.getCount() +
+                this.unit +  ", " +
+                "单价: " +
+                formatPrice(this.getUnitPrice()) +
+                "(元), 小计: " +
+                formatPrice(this.getPrice()) +
+                "(元)";
     }
 }

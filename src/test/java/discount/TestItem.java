@@ -38,4 +38,9 @@ public class TestItem {
         System.out.println(multipleItems.getPrice());
         assertEquals(BigDecimal.valueOf(6.0), multipleItems.getPrice());
     }
+
+    @Test
+    public void shouldPrintOneItemInfo () {
+        assertEquals("名称: 可口可乐, 数量: 1瓶, 单价: 3.00(元), 小计: 3.00(元)", item.toString());
+    }
 }

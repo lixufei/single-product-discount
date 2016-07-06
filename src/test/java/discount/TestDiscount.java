@@ -16,6 +16,7 @@ public class TestDiscount {
     List<Item> items = new ArrayList<Item>();
     private Item item1 = new Item();
     private Item item2 = new Item();
+    private Item item3 = new Item();
     BigDecimal ONE = BigDecimal.valueOf(1.0);
 
     @Before
@@ -43,8 +44,16 @@ public class TestDiscount {
                 .setSubCategory("碳酸饮料")
                 .setPrice(BigDecimal.valueOf(5.00));
 
+        item3.setBarcode("ITEM000000312-4")
+                .setName("百事可乐")
+                .setUnit("瓶")
+                .setCategory("食品")
+                .setSubCategory("碳酸饮料")
+                .setPrice(BigDecimal.valueOf(1.00));
+
         items.add(item1);
         items.add(item2);
+        items.add(item3);
     }
 
     @Test
@@ -78,7 +87,7 @@ public class TestDiscount {
 
     @Test
     public void testSumGivenMultipleItems () {
-        assertEquals(BigDecimal.valueOf(21.4).multiply(ONE), new Sum().getSum(items, discountItems));
+        assertEquals(BigDecimal.valueOf(25.4).multiply(ONE), new Sum().getSum(items, discountItems));
     }
 
 }
