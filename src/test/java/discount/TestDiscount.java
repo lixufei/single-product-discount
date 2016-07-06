@@ -2,6 +2,7 @@ package discount;
 
 import org.junit.Before;
 import org.junit.Test;
+import util.Sum;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -12,7 +13,9 @@ public class TestDiscount {
     private DiscountItem discountItem1 = new DiscountItem();
     private DiscountItem discountItem2 = new DiscountItem();
     List<DiscountItem> discountItems = new ArrayList<DiscountItem>();
-    private Item item = new Item();
+    List<Item> items = new ArrayList<Item>();
+    private Item item1 = new Item();
+    private Item item2 = new Item();
     BigDecimal ONE = BigDecimal.valueOf(1.0);
 
     @Before
@@ -26,12 +29,22 @@ public class TestDiscount {
         discountItems.add(discountItem1);
         discountItems.add(discountItem2);
 
-        item.setBarcode("ITEM0000001-2")
+        item1.setBarcode("ITEM0000001-2")
                 .setName("可口可乐")
                 .setUnit("瓶")
                 .setCategory("食品")
                 .setSubCategory("碳酸饮料")
                 .setPrice(BigDecimal.valueOf(3.00));
+
+        item2.setBarcode("ITEM0000003-4")
+                .setName("百事可乐")
+                .setUnit("瓶")
+                .setCategory("食品")
+                .setSubCategory("碳酸饮料")
+                .setPrice(BigDecimal.valueOf(5.00));
+
+        items.add(item1);
+        items.add(item2);
     }
 
     @Test
@@ -44,15 +57,28 @@ public class TestDiscount {
     @Test
     public void shouldGetTypeBaseOnBarcode () {
         String barcode = "ITEM000002-9";
-        String type = item.getDiscountType(barcode, discountItems);
+        String type = item1.getDiscountType(barcode, discountItems);
         assertEquals("TWENTYPERCENT", type);
     }
 
     @Test
     public void shouldGetTotalDiscountPriceWhenBarcodeIsDiscount () {
-        String barcode = item.getBarcode();
+        String barcode = item1.getBarcode();
 
-        assertEquals(BigDecimal.valueOf(5.4).multiply(ONE), item.getItemPrice(barcode, discountItems));
+        assertEquals(BigDecimal.valueOf(5.4).multiply(ONE), item1.getItemPrice(barcode, discountItems));
+    }
+
+    @Test
+    public void shouldGetTotalAmountIfMultipleItems () {
+        BigDecimal price1 = item1.getItemPrice(item1.getBarcode(), discountItems);
+        BigDecimal price2 = item2.getItemPrice(item2.getBarcode(), discountItems);
+        assertEquals(BigDecimal.valueOf(21.4).multiply(ONE) , price1.add(price2));
+
+    }
+
+    @Test
+    public void testSumGivenMultipleItems () {
+        assertEquals(BigDecimal.valueOf(21.4).multiply(ONE), new Sum().getSum(items, discountItems));
     }
 
 }
