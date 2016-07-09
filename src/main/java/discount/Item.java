@@ -13,6 +13,7 @@ public class Item {
     private String subCategory;
     private BigDecimal price;
     private String discountType = "";
+    private List<DiscountItem> discountItems;
 
     public String getBarcode() {
         return barcode;
@@ -50,6 +51,15 @@ public class Item {
         return this;
     }
 
+    public List<DiscountItem> getDiscountItems() {
+        return discountItems;
+    }
+
+    public Item setDiscountItems(List<DiscountItem> discountItems) {
+        this.discountItems = discountItems;
+        return this;
+    }
+
     public String getSubCategory() {
         return subCategory;
     }
@@ -76,7 +86,7 @@ public class Item {
         return this;
     }
 
-    public String getDiscountType (String barcode, List<DiscountItem> discountItems) {
+    public String getDiscountType (String barcode) {
         String pureBarcode = barcode.split("-")[0];
         for (DiscountItem discountItem : discountItems) {
             label:
@@ -90,10 +100,10 @@ public class Item {
         return discountType;
     }
 
-    public BigDecimal getItemPrice(String barcode, List<DiscountItem> discountItems) {
+    public BigDecimal getItemPrice(String barcode) {
         BigDecimal discountPrice;
         BigDecimal originalPrice = getPrice();
-        String discountType = getDiscountType(barcode, discountItems);
+        String discountType = getDiscountType(barcode);
 
         switch (discountType) {
             case "TENPERCENT":
@@ -111,17 +121,19 @@ public class Item {
         return new java.text.DecimalFormat("#.00").format(price);
     }
 
-    public Boolean itemIsDiscount(List<DiscountItem> discountItems) {
-        return this.getDiscountType (this.barcode, discountItems)!= "";
+    public Boolean itemIsDiscount() {
+        return this.getDiscountType (this.barcode)!= "";
     }
 
-    public BigDecimal getSavedPrice(List<DiscountItem> discountItems) {
-        return this.getPrice().subtract(getItemPrice(this.barcode, discountItems));
+    public BigDecimal getSavedPrice() {
+        return this.getPrice().subtract(getItemPrice(this.barcode));
     }
 
     @Override
     public String toString() {
-        return "名称: " +
+        System.out.println("item is discount:"+itemIsDiscount());
+        System.out.println("item is printing...:"+itemIsDiscount());
+        String printItem = "名称: " +
                 this.name + ", " +
                 "数量: " +
                 this.getCount() +
@@ -131,5 +143,7 @@ public class Item {
                 "(元), 小计: " +
                 formatPrice(this.getPrice()) +
                 "(元)";
+        String discountString = ", 优惠" + getSavedPrice() + "(元)";
+        return itemIsDiscount() ? printItem + discountString : printItem;
     }
 }

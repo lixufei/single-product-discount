@@ -36,21 +36,24 @@ public class TestDiscount {
                 .setUnit("瓶")
                 .setCategory("食品")
                 .setSubCategory("碳酸饮料")
-                .setPrice(BigDecimal.valueOf(3.00));
+                .setPrice(BigDecimal.valueOf(3.00))
+                .setDiscountItems(discountItems);
 
         item2.setBarcode("ITEM0000003-4")
                 .setName("百事可乐")
                 .setUnit("瓶")
                 .setCategory("食品")
                 .setSubCategory("碳酸饮料")
-                .setPrice(BigDecimal.valueOf(5.00));
+                .setPrice(BigDecimal.valueOf(5.00))
+                .setDiscountItems(discountItems);;
 
         item3.setBarcode("ITEM000000312-4")
                 .setName("百事可乐")
                 .setUnit("瓶")
                 .setCategory("食品")
                 .setSubCategory("碳酸饮料")
-                .setPrice(BigDecimal.valueOf(1.00));
+                .setPrice(BigDecimal.valueOf(1.00))
+                .setDiscountItems(discountItems);;
 
         items.add(item1);
         items.add(item2);
@@ -67,14 +70,14 @@ public class TestDiscount {
     @Test
     public void shouldGetTypeBaseOnBarcode () {
         String barcode = "ITEM000002-9";
-        String type = item1.getDiscountType(barcode, discountItems);
+        String type = item1.getDiscountType(barcode);
         assertEquals("TWENTYPERCENT", type);
     }
 
     @Test
     public void shouldNotGetTypeBaseOnBarcode () {
         String barcode = "ITEM000009090-9";
-        String type = item1.getDiscountType(barcode, discountItems);
+        String type = item1.getDiscountType(barcode);
         assertEquals("", type);
     }
 
@@ -82,30 +85,35 @@ public class TestDiscount {
     public void shouldGetTotalDiscountPriceWhenBarcodeIsDiscount () {
         String barcode = item1.getBarcode();
 
-        assertEquals(BigDecimal.valueOf(5.4).multiply(ONE), item1.getItemPrice(barcode, discountItems));
+        assertEquals(BigDecimal.valueOf(5.4).multiply(ONE), item1.getItemPrice(barcode));
     }
 
     @Test
     public void shouldGetTotalAmountIfMultipleItems () {
-        BigDecimal price1 = item1.getItemPrice(item1.getBarcode(), discountItems);
-        BigDecimal price2 = item2.getItemPrice(item2.getBarcode(), discountItems);
+        BigDecimal price1 = item1.getItemPrice(item1.getBarcode());
+        BigDecimal price2 = item2.getItemPrice(item2.getBarcode());
         assertEquals(BigDecimal.valueOf(21.4).multiply(ONE) , price1.add(price2));
 
     }
 
     @Test
     public void testSumGivenMultipleItems () {
-        assertEquals(BigDecimal.valueOf(25.4).multiply(ONE), new Sum().getSum(items, discountItems));
+        assertEquals(BigDecimal.valueOf(25.4).multiply(ONE), new Sum().getSum(items));
     }
 
     @Test
     public void shouldReturnFalseIfItemIsNotDiscount () {
-        assertEquals(false, item3.itemIsDiscount(discountItems));
+        assertEquals(false, item3.itemIsDiscount());
     }
 
     @Test
     public void shouldGetSavedPriceWhenDiscount () {
-        assertEquals(BigDecimal.valueOf(0.6).multiply(ONE), item1.getSavedPrice(discountItems));
+        assertEquals(BigDecimal.valueOf(0.6).multiply(ONE), item1.getSavedPrice());
+    }
+
+    @Test
+    public void shouldPrintOneItemInfo () {
+        assertEquals("名称: 百事可乐, 数量: 4瓶, 单价: 1.00(元), 小计: 4.00(元)", item3.toString());
     }
 
 }

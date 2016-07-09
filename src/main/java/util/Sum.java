@@ -8,10 +8,10 @@ import java.util.List;
 
 public class Sum {
 
-    public BigDecimal getSum(List<Item> items, List<DiscountItem> discountItems) {
+    public BigDecimal getSum(List<Item> items) {
         BigDecimal sum = BigDecimal.ZERO;
         for (Item item : items) {
-            sum = sum.add(item.getItemPrice(item.getBarcode(), discountItems));
+            sum = sum.add(item.getItemPrice(item.getBarcode()));
         }
         return sum;
     }
