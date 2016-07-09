@@ -85,13 +85,13 @@ public class TestDiscount {
     public void shouldGetTotalDiscountPriceWhenBarcodeIsDiscount () {
         String barcode = item1.getBarcode();
 
-        assertEquals(BigDecimal.valueOf(5.4).multiply(ONE), item1.getItemPrice(barcode));
+        assertEquals(BigDecimal.valueOf(5.4).multiply(ONE), item1.getItemPrice());
     }
 
     @Test
     public void shouldGetTotalAmountIfMultipleItems () {
-        BigDecimal price1 = item1.getItemPrice(item1.getBarcode());
-        BigDecimal price2 = item2.getItemPrice(item2.getBarcode());
+        BigDecimal price1 = item1.getItemPrice();
+        BigDecimal price2 = item2.getItemPrice();
         assertEquals(BigDecimal.valueOf(21.4).multiply(ONE) , price1.add(price2));
 
     }
@@ -114,6 +114,7 @@ public class TestDiscount {
     @Test
     public void shouldPrintOneItemInfo () {
         assertEquals("名称: 百事可乐, 数量: 4瓶, 单价: 1.00(元), 小计: 4.00(元)", item3.toString());
+        assertEquals("名称: 可口可乐, 数量: 2瓶, 单价: 3.00(元), 小计: 5.40(元), 优惠0.60(元)", item1.toString());
     }
 
 }

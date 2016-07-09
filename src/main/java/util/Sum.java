@@ -11,7 +11,7 @@ public class Sum {
     public BigDecimal getSum(List<Item> items) {
         BigDecimal sum = BigDecimal.ZERO;
         for (Item item : items) {
-            sum = sum.add(item.getItemPrice(item.getBarcode()));
+            sum = sum.add(item.getItemPrice());
         }
         return sum;
     }

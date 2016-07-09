@@ -100,7 +100,7 @@ public class Item {
         return discountType;
     }
 
-    public BigDecimal getItemPrice(String barcode) {
+    public BigDecimal getItemPrice() {
         BigDecimal discountPrice;
         BigDecimal originalPrice = getPrice();
         String discountType = getDiscountType(barcode);
@@ -118,7 +118,7 @@ public class Item {
     }
 
     private String formatPrice (BigDecimal price) {
-        return new java.text.DecimalFormat("#.00").format(price);
+        return new java.text.DecimalFormat("0.00").format(price);
     }
 
     public Boolean itemIsDiscount() {
@@ -126,13 +126,11 @@ public class Item {
     }
 
     public BigDecimal getSavedPrice() {
-        return this.getPrice().subtract(getItemPrice(this.barcode));
+        return this.getPrice().subtract(getItemPrice());
     }
 
     @Override
     public String toString() {
-        System.out.println("item is discount:"+itemIsDiscount());
-        System.out.println("item is printing...:"+itemIsDiscount());
         String printItem = "名称: " +
                 this.name + ", " +
                 "数量: " +
@@ -141,9 +139,9 @@ public class Item {
                 "单价: " +
                 formatPrice(this.getUnitPrice()) +
                 "(元), 小计: " +
-                formatPrice(this.getPrice()) +
+                formatPrice(this.getItemPrice()) +
                 "(元)";
-        String discountString = ", 优惠" + getSavedPrice() + "(元)";
+        String discountString = ", 优惠" + formatPrice(this.getSavedPrice()) + "(元)";
         return itemIsDiscount() ? printItem + discountString : printItem;
     }
 }
