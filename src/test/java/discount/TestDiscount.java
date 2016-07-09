@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class TestDiscount {
     private DiscountItem discountItem1 = new DiscountItem();
@@ -71,6 +72,13 @@ public class TestDiscount {
     }
 
     @Test
+    public void shouldNotGetTypeBaseOnBarcode () {
+        String barcode = "ITEM000009090-9";
+        String type = item1.getDiscountType(barcode, discountItems);
+        assertEquals("", type);
+    }
+
+    @Test
     public void shouldGetTotalDiscountPriceWhenBarcodeIsDiscount () {
         String barcode = item1.getBarcode();
 
@@ -88,6 +96,16 @@ public class TestDiscount {
     @Test
     public void testSumGivenMultipleItems () {
         assertEquals(BigDecimal.valueOf(25.4).multiply(ONE), new Sum().getSum(items, discountItems));
+    }
+
+    @Test
+    public void shouldReturnFalseIfItemIsNotDiscount () {
+        assertEquals(false, item3.itemIsDiscount(discountItems));
+    }
+
+    @Test
+    public void shouldGetSavedPriceWhenDiscount () {
+        assertEquals(BigDecimal.valueOf(0.6).multiply(ONE), item1.getSavedPrice(discountItems));
     }
 
 }

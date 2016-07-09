@@ -1,6 +1,7 @@
 package discount;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Item {
@@ -11,6 +12,7 @@ public class Item {
     private String category;
     private String subCategory;
     private BigDecimal price;
+    private String discountType = "";
 
     public String getBarcode() {
         return barcode;
@@ -75,7 +77,6 @@ public class Item {
     }
 
     public String getDiscountType (String barcode, List<DiscountItem> discountItems) {
-        String discountType = "";
         String pureBarcode = barcode.split("-")[0];
         for (DiscountItem discountItem : discountItems) {
             label:
@@ -108,6 +109,14 @@ public class Item {
 
     private String formatPrice (BigDecimal price) {
         return new java.text.DecimalFormat("#.00").format(price);
+    }
+
+    public Boolean itemIsDiscount(List<DiscountItem> discountItems) {
+        return this.getDiscountType (this.barcode, discountItems)!= "";
+    }
+
+    public BigDecimal getSavedPrice(List<DiscountItem> discountItems) {
+        return this.getPrice().subtract(getItemPrice(this.barcode, discountItems));
     }
 
     @Override
