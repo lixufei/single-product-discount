@@ -53,4 +53,17 @@ public class Sum {
     public BigDecimal getSavedSum () {
         return sum.subtract(discountSum);
     }
+
+    private String formatPrice (BigDecimal price) {
+        return new java.text.DecimalFormat("0.00").format(price);
+    }
+
+
+    public String printDiscountSum() {
+        return "总计: " + formatPrice(getDiscountSum()) + "(元)";
+    }
+
+    public String printSavedSum() {
+        return "节省: " + formatPrice(getSavedSum()) + "(元)";
+    }
 }

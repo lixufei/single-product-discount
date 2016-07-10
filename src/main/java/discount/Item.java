@@ -2,7 +2,9 @@ package discount;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Item {
 
@@ -13,7 +15,14 @@ public class Item {
     private String subCategory;
     private BigDecimal price;
     private String discountType = "";
+    private String printDiscount = "";
     private List<DiscountItem> discountItems;
+    private Map<String, String> discountInfo = new HashMap<>();
+
+    public Item() {
+        discountInfo.put("TWENTYPERCENT", "八折");
+        discountInfo.put("TENPERCENT", "九折");
+    }
 
     public String getBarcode() {
         return barcode;
@@ -107,9 +116,11 @@ public class Item {
 
         switch (discountType) {
             case "TENPERCENT":
+                printDiscount = discountInfo.get("TENPERCENT");
                 discountPrice = Discount.TENPERCENT.discountResult(originalPrice);
                 break;
             case "TWENTYPERCENT":
+                printDiscount = discountInfo.get("TWENTYPERCENT");
                 discountPrice = Discount.TWENTYPERCENT.discountResult(originalPrice);
                 break;
             default: discountPrice = getPrice();
@@ -143,5 +154,10 @@ public class Item {
                 "(元)";
         String discountString = ", 优惠" + formatPrice(this.getSavedPrice()) + "(元)";
         return itemIsDiscount() ? printItem + discountString : printItem;
+    }
+
+    public String printHowManyDiscount() {
+        String howManyDiscount = "名称: " + this.name + ", 折扣: " + this.discountInfo.get(getDiscountType(this.barcode));
+        return itemIsDiscount() ? howManyDiscount : "";
     }
 }
