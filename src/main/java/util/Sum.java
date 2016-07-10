@@ -1,6 +1,5 @@
 package util;
 
-import discount.DiscountItem;
 import discount.Item;
 
 import java.math.BigDecimal;
@@ -8,11 +7,50 @@ import java.util.List;
 
 public class Sum {
 
-    public BigDecimal getSum(List<Item> items) {
-        BigDecimal sum = BigDecimal.ZERO;
+    private BigDecimal sum = BigDecimal.ZERO;
+    private BigDecimal discountSum = BigDecimal.ZERO;
+    private List<Item> items;
+
+    public Sum (List<Item> items) {
+        BigDecimal newSum = BigDecimal.ZERO;
+        BigDecimal newDiscountSum = BigDecimal.ZERO;
         for (Item item : items) {
-            sum = sum.add(item.getItemPrice());
+            newDiscountSum = newDiscountSum.add(item.getItemPrice());
+            newSum = newSum.add(item.getPrice());
         }
+
+        this.sum = newSum;
+        this.discountSum = newDiscountSum;
+    }
+
+    public BigDecimal getSum() {
         return sum;
+    }
+
+    public Sum setSum(BigDecimal sum) {
+        this.sum = sum;
+        return this;
+    }
+
+    public Sum setDiscountSum(BigDecimal discountSum) {
+        this.discountSum = discountSum;
+        return this;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public Sum setItems(List<Item> items) {
+        this.items = items;
+        return this;
+    }
+
+    public BigDecimal getDiscountSum() {
+        return discountSum;
+    }
+
+    public BigDecimal getSavedSum () {
+        return sum.subtract(discountSum);
     }
 }

@@ -98,7 +98,14 @@ public class TestDiscount {
 
     @Test
     public void testSumGivenMultipleItems () {
-        assertEquals(BigDecimal.valueOf(25.4).multiply(ONE), new Sum().getSum(items));
+        Sum sum = new Sum(items);
+        assertEquals(BigDecimal.valueOf(25.4).multiply(ONE), sum.getDiscountSum());
+    }
+
+    @Test
+    public void shouldGetTotalSavedMoney () {
+        Sum sum = new Sum(items);
+        assertEquals(BigDecimal.valueOf(4.6).multiply(ONE), sum.getSavedSum());
     }
 
     @Test
