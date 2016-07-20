@@ -64,7 +64,7 @@ public class TestDiscount {
     public void shouldGetDiscountedPriceWhenGivenAPrice() {
         BigDecimal price = BigDecimal.valueOf(6.0);
         assertEquals(BigDecimal.valueOf(5.4).multiply(ONE), Discount.TENPERCENT.discountResult(price));
-        assertEquals(BigDecimal.valueOf(7884.8).multiply(ONE), Discount.TWENTYPERCENT.discountResult(price));
+        assertEquals(BigDecimal.valueOf(4.8).multiply(ONE), Discount.TWENTYPERCENT.discountResult(price));
     }
 
     @Test
